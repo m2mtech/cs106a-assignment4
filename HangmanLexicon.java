@@ -6,28 +6,43 @@
  */
 
 import acm.util.*;
+import java.util.*;
+import java.io.*;
 
 public class HangmanLexicon {
 
-/** Returns the number of words in the lexicon. */
-	public int getWordCount() {
-		return 10;
+	private static final String DATA_FILE = "HangmanLexicon.txt";
+
+	private ArrayList<String> wordList;
+	
+	// This is the HangmanLexicon constructor
+	public HangmanLexicon() {
+		try {
+			BufferedReader rd = new BufferedReader(
+					new FileReader(DATA_FILE)
+			);
+			
+			wordList = new ArrayList<String>();
+			
+			while (true) {
+				String line = rd.readLine();
+				if (line == null) break;
+				if (!wordList.contains(line)) {
+					wordList.add(line);
+				}
+			}
+		} catch (IOException ex) {
+			throw new ErrorException(ex);
+		}
 	}
 
-/** Returns the word at the specified index. */
+	/** Returns the number of words in the lexicon. */
+	public int getWordCount() {
+		return wordList.size();
+	}
+
+	/** Returns the word at the specified index. */
 	public String getWord(int index) {
-		switch (index) {
-			case 0: return "BUOY";
-			case 1: return "COMPUTER";
-			case 2: return "CONNOISSEUR";
-			case 3: return "DEHYDRATE";
-			case 4: return "FUZZY";
-			case 5: return "HUBBUB";
-			case 6: return "KEYHOLE";
-			case 7: return "QUAGMIRE";
-			case 8: return "SLITHER";
-			case 9: return "ZIRCON";
-			default: throw new ErrorException("getWord: Illegal index");
-		}
+		return wordList.get(index);
 	};
 }
